@@ -5,17 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Flask</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
-    {% for driver in drivers %}
-    <div class="container" style="border-bottom: .4rem solid #{{ driver['team_colour'] }};">
-        <div class="number" style="color: #{{ driver['team_colour'] }};">{{ driver['driver_number'] }}</div>
-        <div class="name">{{ driver['full_name'] }}</div>
-        {% if driver['headshot_url'] %}
-        <img src="{{ driver['headshot_url'] }}" alt="Logo">
+    <header>
+        F1 - Live Info
+    </header>
+    <main>
+        {% if drivers %}
+            {% for driver in drivers %}
+            <div class="container" style="border-bottom: .4rem solid #{{ driver['team_colour'] }};">
+                <div class="number" style="color: #{{ driver['team_colour'] }};">{{ driver['driver_number'] }}</div>
+                <div class="content">
+                    <div class="name"> {{ driver['full_name'] }} </div>
+                    <div class="options">
+                        <a href="#" title="radio" data-value="{{ driver['driver_number'] }}"><i class="ph-duotone ph-headset"></i></a>
+                        <a href="#" title="car"><i class="ph-duotone ph-steering-wheel"></i></a>
+                        <a href="#" title="timing"><i class="ph-duotone ph-alarm"></i></a>
+                    </div>
+                </div>
+                {% if driver['headshot_url'] %}
+                <img src="{{ driver['headshot_url'] }}" alt="{{ driver['full_name'] }}">
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div>{{ error }}</div>
         {% endif %}
-    </div>
-    {% endfor %}
-    
+    </main>
 </body>
 </html>
